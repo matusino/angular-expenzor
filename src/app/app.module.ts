@@ -7,17 +7,39 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {HttpClientModule} from '@angular/common/http';
-
+import {MatInputModule} from '@angular/material/input';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { SignupComponent } from './signup/signup.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './header/header.component';
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { ToastrModule } from 'ngx-toastr';
+import { HomeComponent } from './home/home.component';
+import { MainTableComponent } from './expense/main-table/main-table.component';
+import {MatTableModule} from '@angular/material/table';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AddExpenseComponent } from './expense/add-expense/add-expense.component';
+import { TestComponent } from './test/test.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {TokenInterceptor} from'./token-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
+    HeaderComponent,
+    HomeComponent,
+    MainTableComponent,
+    AddExpenseComponent,
+    TestComponent
+    
+    
   ],
   imports: [
     BrowserModule,
@@ -29,9 +51,23 @@ import {HttpClientModule} from '@angular/common/http';
     MatButtonModule,
     MatCardModule,
     MatToolbarModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    NgxWebstorageModule.forRoot(),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    MatTableModule,
+    FontAwesomeModule,
+    BrowserModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
