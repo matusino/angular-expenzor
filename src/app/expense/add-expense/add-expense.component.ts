@@ -5,6 +5,7 @@ import { AddNewExpense } from './ad-new-expense';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ExpenseService } from '../expense.service';
+import { isEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-expense',
@@ -13,7 +14,6 @@ import { ExpenseService } from '../expense.service';
 })
 export class AddExpenseComponent implements OnInit {
 
-  // public expenseEnum = ExpenseCategory;
   public expenseCategory: ExpenseCategory[]=[
     {value: 'FOOD', viewValue:'FOOD'},
     {value: 'GROCERIES', viewValue:'GROCERIES'},
@@ -29,6 +29,7 @@ export class AddExpenseComponent implements OnInit {
   public expenseTypeOption = [];
   addExpenseForm: FormGroup;
   addNewExpense: AddNewExpense; 
+  incomeTypeCheck = true;
 
   constructor(private expenseService: ExpenseService ,private router: Router, private toastr: ToastrService) {
       this.addNewExpense={
@@ -45,24 +46,41 @@ export class AddExpenseComponent implements OnInit {
       date: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       value: new FormControl('', Validators.required),
-      category: new FormControl('', Validators.required)
+      category: new FormControl('FOOD', Validators.required)
     });
   }
 
   add(){
     this.addNewExpense.date = this.addExpenseForm.get('date').value;
     this.addNewExpense.description = this.addExpenseForm.get('description').value;
-    this.addNewExpense.value = this.addExpenseForm.get('value').value;
-    this.addNewExpense.category = this.addExpenseForm.get('category').value;
+    if(this.incomeTypeCheck === true){
+      this.addNewExpense.value = this.possitiveToNegative(this.addExpenseForm.get('value').value);
+    }else{
+      this.addNewExpense.value = this.addExpenseForm.get('value').value;
+    }
+    if(this.incomeTypeCheck === false){
+      this.addNewExpense.category = "INCOME";
+    }else {
+      this.addNewExpense.category = this.addExpenseForm.get('category').value;
+    }
+    
 
     this.expenseService.addNewExpense(this.addNewExpense).subscribe(data => {
-      this.router.navigateByUrl('/');
-      
+      this.redirectTo('/');
       this.toastr.success('New Expense added');
     })
     
   }
 
+  redirectTo(uri:string){
+    this.router.navigateByUrl('/test', {skipLocationChange: true}).then(()=>
+    this.router.navigate([uri]));
+ }
+ toggle(){
+  this.incomeTypeCheck = !this.incomeTypeCheck;
+}
 
-
+possitiveToNegative(value: number){
+  return -Math.abs(value);
+}
 }

@@ -1,70 +1,58 @@
-<div class="main">
-  <table mat-table [dataSource]="expense" class="mat-elevation-z8">
+<div class="container-fluid">
+<mat-form-field>
+  <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="expense" matSort>
     <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
       <td mat-cell *matCellDef="let element"> {{element.date | date }} </td>
     </ng-container>
    
     <ng-container matColumnDef="value">
-      <th mat-header-cell *matHeaderCellDef> Amount </th>
-      <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="{
+        'positive' : element.value > 0,
+        'negative' : element.value < 0
+     }"> {{element.value}} </td>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef> Category </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
       <td mat-cell *matCellDef="let element"> {{element.category}} </td>
     </ng-container>
   
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
+    <ng-container matColumnDef="description" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
-<!-- https://stackoverflow.com/questions/47561576/angular-filter-sort-and-paginate-table -->
+<!-- <button (click)="getExpenseByCategory('housing')" class="btn btn-success">Get All</button> -->
+<section>
+  <div class="example-button-row">
+    <button (click)="getExpenseByMonth(1)" class="mat-raised-button">January</button>
+    <button (click)="getExpenseByMonth(2)" class="mat-raised-button">February</button>
+    <button (click)="getExpenseByMonth(3)" class="mat-raised-button">March</button>
+    <button (click)="getExpenseByMonth(4)" class="mat-raised-button">April</button>
+    <button (click)="getExpenseByMonth(5)" class="mat-raised-button">May</button>
+    <button (click)="getExpenseByMonth(6)" class="mat-raised-button">June</button>
+    <button (click)="getExpenseByMonth(7)" class="mat-raised-button">July</button>
+    <button (click)="getExpenseByMonth(8)" class="mat-raised-button">August</button>
+    <button (click)="getExpenseByMonth(9)" class="mat-raised-button">September</button>
+    <button (click)="getExpenseByMonth(10)" class="mat-raised-button">October</button>
+    <button (click)="getExpenseByMonth(11)" class="mat-raised-button">November</button>
+    <button (click)="getExpenseByMonth(12)" class="mat-raised-button">December</button>
+    <button (click)="getAllExpenses()" class="mat-raised-button">Get All</button>
+</div>
+</section>
 
-<!-- <div>
-    <div class="container">
-      <div class="row">
-        <hr />
-        <div class="col-md-9">
-          <div class="row post" *ngFor="let expense of expense$">
-            <div class="col-md-1">
-              <div class="d-flex flex-column votebox">
-                <div class="p-2">
-                </div>
-                <div class="p-2 votecount">{{expense.description}}</div>
-              </div>
-            </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-<!-- <div class="container">
-  <table id="myTable" class="display" cellspacing="0" width="100%">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>date</th>
-        <th>Category</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let expense of expense">
-        <td>1</td>
-        <td {{expense.date}}></td>
-        <td {{expense.category}}></td>
-        <td {{expense.description}}></td>
-    </tr>
-    </tbody>
-</table>
-</div> -->
+<div>
+  <canvas id="canvas">{{ chart }}</canvas>
+</div>

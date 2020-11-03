@@ -1,53 +1,28 @@
-<!-- <div class="container-fluid">
-  <div class="row">
-    <form [formGroup]="addExpenseForm" (ngSubmit)="add()">
-      <div class="col-sm-6">
-      <label>Amount</label>
-      <input [formControlName]="'value'" type="number" id="value" class="form-control" name="value" required autofocus>
-    </div>
-  <div class="col-sm-6">
-    <label>Date</label>
-    <input [formControlName]="'date'" type="date" id="date" class="form-control" [formControlName]="'date'" name="date"
-      required autofocus>
-  </div>
-  <div class="col-sm-3">
-    <label>Category</label>
-    <select [formControlName]="'category'">
-      <option *ngFor="let exCategory of expenseCategory" [value]="exCategory.value">{{exCategory.viewValue}}</option>
-    </select>
-  </div>
-  <div class="col-sm-3">
-    <textarea [formControlName]="'description'" placeholder="Short description..."></textarea>
-  </div>
-  <button type="submit">Add</button>
-  </form>
-
-  <div class="row">
-    <div class="col">
-      <h1>HEJ</h1>
-    </div>
-    <div class="col">
-      <h1>TY HOVNO</h1>
-    </div>
-  </div>
-</div>
-</div> -->
-
+https://stackoverflow.com/questions/40989974/angular-js-show-div-based-on-radio-button-selection
 
 <div class="container-fluid">
-  <form [formGroup]="addExpenseForm" (ngSubmit)="add()">
+  <form ngNativeValidate [formGroup]="addExpenseForm" (ngSubmit)="add()">
+    <div class="radio_toggle">
+      <div class="form-check form-check-inline">
+        <input type="radio" name="ffStatus" value="radio1" (click)="toggle()" checked />Expense<br>
+      </div>
+      <div class="form-check form-check-inline">
+        <input type="radio" name="ffStatus" value="radio2" (click)="toggle()" />Income<br>
+      </div>
+    
+    
+    </div>
     <div class="form-row add-expense">
       <div class="form-group col-md-3">
         <label for="value">Amount</label>
-        <input [formControlName]="'value'" type="number" id="value" class="form-control" name="value" required
-          autofocus>
+        <input required [formControlName]="'value'" type="number" id="value" class="form-control" name="value" autofocus>
       </div>
       <div class="form-group col-md-3">
         <label for="date">Date</label>
         <input [formControlName]="'date'" type="date" id="date" class="form-control" [formControlName]="'date'"
           name="date" required autofocus>
       </div>
-      <div class="form-group col-md-2">
+      <div *ngIf="incomeTypeCheck" class="form-group col-md-2">
         <label for="category">Category</label>
         <select id="category" class="form-control" [formControlName]="'category'">
           <option *ngFor="let exCategory of expenseCategory" [value]="exCategory.value">{{exCategory.viewValue}}

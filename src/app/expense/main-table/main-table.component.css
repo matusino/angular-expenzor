@@ -1,10 +1,50 @@
 table {
-    width: 100%;
-    margin-top: 20px;
-  }
+  width: 100%;
+}
 
-  .main {
-    margin-top: 100px;
-  }
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.positive {
+  color: green;
+  flex: 0 0 10px;
+}
+
+.negative {
+  color: red;
+  flex: 0 0 10px;
+}
+
+.customWidthClass{
+  flex: 0 0 75px;
+}
+
+.mat-column-date{
+  flex: 0 0 58%;
+}
+
+
+
+
+
+
+
+
+
+
+.example-button-row {
+  display: table-cell;
+  width: 100%;
+}
+
+section {
+  display: table;
+}
+
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
 
 

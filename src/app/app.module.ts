@@ -11,6 +11,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {TokenInterceptor} from'./token-interceptor';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -61,7 +64,10 @@ import {TokenInterceptor} from'./token-interceptor';
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule,
+    MatSortModule,
+    ChartsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
