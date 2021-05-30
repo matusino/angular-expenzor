@@ -30,6 +30,8 @@ import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {TokenInterceptor} from'./token-interceptor';
 import { ChartsModule } from 'ng2-charts';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { PasswordChangeComponent } from './user/password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { ChartsModule } from 'ng2-charts';
     HomeComponent,
     MainTableComponent,
     AddExpenseComponent,
-    TestComponent
+    TestComponent,
+    UserProfileComponent,
+    PasswordChangeComponent
     
     
   ],

@@ -38,16 +38,16 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     private handleAuthErrors(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-     
-            return this.refreshTokenSubject.pipe(
-                filter(result => result !== null),
-                take(1),
-                switchMap((res) => {
-                    return next.handle(this.addToken(req,
-                        this.authService.getJwtToken()));
-                })
-            );
-        
+
+        return this.refreshTokenSubject.pipe(
+            filter(result => result !== null),
+            take(1),
+            switchMap((res) => {
+                return next.handle(this.addToken(req,
+                    this.authService.getJwtToken()));
+            })
+        );
+
     }
 
     addToken(req: HttpRequest<any>, jwtToken: any) {
