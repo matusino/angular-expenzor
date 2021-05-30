@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="row wrapper">
+    <div class="col-sm-1">
+      <fa-icon [icon]="faUser"></fa-icon>
+      <h1>User Profile</h1>
+    </div>
+    <div class="col-sm-1">
+      <button class="btn btn-dark" (click)="profileEnable()">Update profile</button>
+    </div>
+  </div>
+  <form [formGroup]="userProfileForm" (ngSubmit)="updateProfile()">
+    <div class="form-group row">
+      <label for="userName" class="col-sm-1 col-form-label">Username</label>
+      <div class="col-sm-2">
+        <input type="text" readonly class="form-control-plaintext" id="userName" value="{{userProfile?.username}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="email" class="col-sm-1 col-form-label">Email</label>
+      <div class="col-sm-2">
+        <input type="text" readonly class="form-control-plaintext" id="email" value="{{userProfile?.email}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="firstName" class="col-sm-1 col-form-label">First Name</label>
+      <div class="col-sm-2">
+        <input type="text" [formControlName]="'firstName'" class="form-control" id="firstName"
+          value="{{userProfile?.firstName}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="lastName" class="col-sm-1 col-form-label">Last Name</label>
+      <div class="col-sm-2">
+        <input type="text" [formControlName]="'lastName'" class="form-control" id="lastName"
+          value="{{userProfile?.lastName}}">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="gender" class="col-sm-1 col-form-label">Gender</label>
+      <div class="col-sm-2">
+        <select [formControlName]="'gender'" class="form-control" id="gender">
+          <option value="" selected disabled hidden>{{userProfile?.gender}}</option>
+          <option value="">-</option>
+          <option value="MALE">MALE</option>
+          <option value="FEMALE">FEMALE</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="age" class="col-sm-1 col-form-label">Age</label>
+      <div class="col-sm-2">
+        <input type="text" [formControlName]="'age'" class="form-control" id="age" value="{{userProfile?.age}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="city" class="col-sm-1 col-form-label">City</label>
+      <div class="col-sm-2">
+        <input type="text" [formControlName]="'city'" class="form-control" id="city" value="{{userProfile?.city}}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="phoneNumber" class="col-sm-1 col-form-label">Phone Number</label>
+      <div class="col-sm-2">
+        <input type="text" [formControlName]="'phoneNumber'" class="form-control" id="phoneNumber"
+          value="{{userProfile?.phoneNumber}}">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">
+        <button class="btn btn-dark custom-button save">Save</button>
+      </div>
+      <div class="col-sm-1">
+        <a routerLink="/password" class="btn btn-dark custom-button" role="button">Change password</a>
+      </div>
+    </div>
+
+  </form>
+</div>
