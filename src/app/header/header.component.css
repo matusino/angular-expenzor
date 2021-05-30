@@ -1,5 +1,6 @@
 header{
     border-radius: 1px solid;
+    background-color: #0D1526;
 }
 .reddit-icon-svg{
     height: 50px;
@@ -10,7 +11,8 @@ header{
 .reddit-text{        
     font-weight: 700;
     height: 50px;
-    width: 50px;    
+    width: 50px;
+    color:#434d45;    
 }
 .logo{
     text-decoration: none;
@@ -20,7 +22,7 @@ header{
     background-color: transparent;
     border-color: #0079D3;
     color: #0079D3;
-    fill: #0079D3;
+    fill: #0079D3; 
     border: 1px solid;
     border-radius: 4px;
     box-sizing: border-box;
