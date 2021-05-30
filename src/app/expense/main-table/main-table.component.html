@@ -1,8 +1,39 @@
 <div class="container-fluid">
-<mat-form-field>
-  <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
-</mat-form-field>
-
+  <div class="float-right signup mr-2">
+    <div ngbDropdown class="d-inline-block">
+      <button class="custom-button" id="dropdownBasic1" ngbDropdownToggle>Export xlsx</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="exportTable(1)" class="custom-button">January</button>
+          <button ngbDropdownItem (click)="exportTable(2)" class="custom-button">February</button>
+          <button ngbDropdownItem (click)="exportTable(3)" class="custom-button">March</button>
+          <button ngbDropdownItem (click)="exportTable(4)" class="custom-button">April</button>
+          <button ngbDropdownItem (click)="exportTable(5)" class="custom-button">May</button>
+          <button ngbDropdownItem (click)="exportTable(6)" class="custom-button">June</button>
+          <button ngbDropdownItem (click)="exportTable(7)" class="custom-button">July</button>
+          <button ngbDropdownItem (click)="exportTable(8)" class="custom-button">August</button>
+          <button ngbDropdownItem (click)="exportTable(9)" class="custom-button">September</button>
+          <button ngbDropdownItem (click)="exportTable(10)" class="custom-button">October</button>
+          <button ngbDropdownItem (click)="exportTable(11)" class="custom-button">November</button>
+          <button ngbDropdownItem (click)="exportTable(12)" class="custom-button">December</button> 
+          <button ngbDropdownItem (click)="exportTable(0)" class="custom-button">Whole year</button>
+        </div>
+    </div>
+  </div>
+  <div class="float-right signup mr-2">
+    <div ngbDropdown class="d-inline-block">
+      <button class="custom-button" id="dropdownBasic1" ngbDropdownToggle>Previous years</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="getAllExpenses(2020)" class="custom-button">2020</button>
+          <button ngbDropdownItem (click)="getAllExpenses(2021)" class="custom-button">2021</button>
+        </div>
+    </div>
+  </div>
+  <div class="float-right display-year">
+    <p>{{this.choosenYear}}</p>
+  </div>
+  <mat-form-field>
+    <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+  </mat-form-field>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="expense" matSort>
     <ng-container matColumnDef="date">
@@ -27,32 +58,72 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="delete" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button (click)="deleteExpense(element.id)" target="_blank"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
+      </td>
+    </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
-
-<!-- <button (click)="getExpenseByCategory('housing')" class="btn btn-success">Get All</button> -->
-<section>
-  <div class="example-button-row">
-    <button (click)="getExpenseByMonth(1)" class="mat-raised-button">January</button>
-    <button (click)="getExpenseByMonth(2)" class="mat-raised-button">February</button>
-    <button (click)="getExpenseByMonth(3)" class="mat-raised-button">March</button>
-    <button (click)="getExpenseByMonth(4)" class="mat-raised-button">April</button>
-    <button (click)="getExpenseByMonth(5)" class="mat-raised-button">May</button>
-    <button (click)="getExpenseByMonth(6)" class="mat-raised-button">June</button>
-    <button (click)="getExpenseByMonth(7)" class="mat-raised-button">July</button>
-    <button (click)="getExpenseByMonth(8)" class="mat-raised-button">August</button>
-    <button (click)="getExpenseByMonth(9)" class="mat-raised-button">September</button>
-    <button (click)="getExpenseByMonth(10)" class="mat-raised-button">October</button>
-    <button (click)="getExpenseByMonth(11)" class="mat-raised-button">November</button>
-    <button (click)="getExpenseByMonth(12)" class="mat-raised-button">December</button>
-    <button (click)="getAllExpenses()" class="mat-raised-button">Get All</button>
+<br>
+<div class="">
+  <h1>Filter by month</h1>
 </div>
-</section>
 
+  <div class="test">
+    <button (click)="getExpenseByMonth(1)" class="custom-button col-sm">January</button>
+    <button (click)="getExpenseByMonth(2)" class="custom-button col-sm">February</button>
+    <button (click)="getExpenseByMonth(3)" class="custom-button col-sm">March</button>
+    <button (click)="getExpenseByMonth(4)" class="custom-button col-sm">April</button>
+    <button (click)="getExpenseByMonth(5)" class="custom-button col-sm">May</button>
+    <button (click)="getExpenseByMonth(6)" class="custom-button col-sm">June</button>
+    <button (click)="getExpenseByMonth(7)" class="custom-button col-sm">July</button>
+    <button (click)="getExpenseByMonth(8)" class="custom-button col-sm">August</button>
+    <button (click)="getExpenseByMonth(9)" class="custom-button col-sm">September</button>
+    <button (click)="getExpenseByMonth(10)" class="custom-button col-sm">October</button>
+    <button (click)="getExpenseByMonth(11)" class="custom-button col-sm">November</button>
+    <button (click)="getExpenseByMonth(12)" class="custom-button col-sm">December</button> 
+    <button (click)="getAllExpenses(this.currentYear)" class="custom-button cancel-filter">Cancel filter</button>
+</div>
+<div class="calc-section">
+  <h1>Exp. vs Bgt.(per month)</h1>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="income-box">
+        <h4>Income: {{this.incomeTotal}}</h4>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="expense-box">
+              <h4>Expenses: {{this.expenseTotal}}</h4>
+      </div>
+    </div>
+    <div class="col-sm-2" *ngIf="!this.negative" >
+      <div class="filler-text">
+        <h4>Savings in % = </h4>
+      </div>
+    </div>
+    <div class="col-sm-2" *ngIf="this.negative" >
+      <div class="filler-text">
+        <h4>Your debt is % = </h4>
+      </div>
+    </div> 
+    <div class="col-sm-2">
+      <div class="percentage-box">
+         <h4>{{this.percentage}} %</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
 <div>
   <canvas id="canvas">{{ chart }}</canvas>
 </div>
+
