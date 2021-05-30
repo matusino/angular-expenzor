@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ExpenseCategory } from './expense-category';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddNewExpense } from './ad-new-expense';
@@ -14,31 +14,35 @@ import { isEmpty } from 'rxjs/operators';
 })
 export class AddExpenseComponent implements OnInit {
 
-  public expenseCategory: ExpenseCategory[]=[
-    {value: 'FOOD', viewValue:'FOOD'},
-    {value: 'GROCERIES', viewValue:'GROCERIES'},
-    {value: 'HOUSING', viewValue:'HOUSING'},
-    {value: 'UTILITIES', viewValue:'UTILITIES'},
-    {value: 'CLOTHING', viewValue:'CLOTHING'},
-    {value: 'COSMETICS', viewValue:'COSMETICS'},
-    {value: 'LEISURE', viewValue:'LEISURE'},
-    {value: 'TRANSPORTATION', viewValue:'TRANSPORTATION'},
-    {value: 'HEALTH', viewValue:'HEALTH'},
-    {value: 'OTHER', viewValue:'OTHER'}
+  public expenseCategory: ExpenseCategory[] = [
+    { value: 'FOOD', viewValue: 'FOOD' },
+    { value: 'GROCERIES', viewValue: 'GROCERIES' },
+    { value: 'HOUSING', viewValue: 'HOUSING' },
+    { value: 'UTILITIES', viewValue: 'UTILITIES' },
+    { value: 'CLOTHING', viewValue: 'CLOTHING' },
+    { value: 'COSMETICS', viewValue: 'COSMETICS' },
+    { value: 'LEISURE', viewValue: 'LEISURE' },
+    { value: 'TRANSPORTATION', viewValue: 'TRANSPORTATION' },
+    { value: 'HEALTH', viewValue: 'HEALTH' },
+    { value: 'OTHER', viewValue: 'OTHER' }
   ];
   public expenseTypeOption = [];
   addExpenseForm: FormGroup;
-  addNewExpense: AddNewExpense; 
+  addNewExpense: AddNewExpense;
   incomeTypeCheck = true;
 
-  constructor(private expenseService: ExpenseService ,private router: Router, private toastr: ToastrService) {
-      this.addNewExpense={
-        date: new Date,
-        description:'',
-        value:0,
-        category: ''
-      }
-   }
+  @Input()
+  maxNumberOfCharacters = 50;
+  numberOfCharacters1 = 0;
+
+  constructor(private expenseService: ExpenseService, private router: Router, private toastr: ToastrService) {
+    this.addNewExpense = {
+      date: new Date,
+      description: '',
+      value: 0,
+      category: ''
+    }
+  }
 
   ngOnInit(): void {
     this.expenseTypeOption = Object.keys(this.expenseCategory);
@@ -50,37 +54,48 @@ export class AddExpenseComponent implements OnInit {
     });
   }
 
-  add(){
-    this.addNewExpense.date = this.addExpenseForm.get('date').value;
-    this.addNewExpense.description = this.addExpenseForm.get('description').value;
-    if(this.incomeTypeCheck === true){
-      this.addNewExpense.value = this.possitiveToNegative(this.addExpenseForm.get('value').value);
-    }else{
-      this.addNewExpense.value = this.addExpenseForm.get('value').value;
-    }
-    if(this.incomeTypeCheck === false){
-      this.addNewExpense.category = "INCOME";
-    }else {
-      this.addNewExpense.category = this.addExpenseForm.get('category').value;
-    }
-    
+  onKeyUp(event: any): void {
+    this.numberOfCharacters1 = event.target.value.length;
 
-    this.expenseService.addNewExpense(this.addNewExpense).subscribe(data => {
-      this.redirectTo('/');
-      this.toastr.success('New Expense added');
-    })
-    
+    if (this.numberOfCharacters1 > this.maxNumberOfCharacters) {
+      event.target.value = event.target.value.slice(0, this.maxNumberOfCharacters);
+      this.numberOfCharacters1 = this.maxNumberOfCharacters;
+    }
   }
 
-  redirectTo(uri:string){
-    this.router.navigateByUrl('/test', {skipLocationChange: true}).then(()=>
-    this.router.navigate([uri]));
- }
- toggle(){
-  this.incomeTypeCheck = !this.incomeTypeCheck;
-}
+  add() {
+    this.addNewExpense.date = this.addExpenseForm.get('date').value;
+    this.addNewExpense.description = this.addExpenseForm.get('description').value;
+    if (this.incomeTypeCheck === true) {
+      this.addNewExpense.value = this.possitiveToNegative(this.addExpenseForm.get('value').value);
+    } else {
+      this.addNewExpense.value = this.addExpenseForm.get('value').value;
+    }
+    if (this.incomeTypeCheck === false) {
+      this.addNewExpense.category = "INCOME";
+    } else {
+      this.addNewExpense.category = this.addExpenseForm.get('category').value;
+    }
 
-possitiveToNegative(value: number){
-  return -Math.abs(value);
-}
+    this.expenseService.addNewExpense(this.addNewExpense).subscribe(data => {
+      this.redirectTo('/home');
+      this.toastr.success('New Expense added');
+    })
+
+  }
+
+  redirectTo(uri: string) {
+    this.router.navigateByUrl('/test', { skipLocationChange: true }).then(() =>
+      this.router.navigate([uri]));
+  }
+
+  toggle() {
+    this.incomeTypeCheck = !this.incomeTypeCheck;
+  }
+
+  possitiveToNegative(value: number) {
+    return -Math.abs(value);
+  }
+
+
 }
